@@ -1,46 +1,55 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class Corrida extends JPanel{
+
+public class Corrida extends JPanel implements ActionListener{
 
 	private Coelho coelho;
 	private Tartaruga tartaruga;
 	private int[] pista;
+	private boolean inicio;
+	private Timer tempo;	
 	
 	public Corrida() {
 		
 		coelho = new Coelho("Coelho", 1);
 		tartaruga = new Tartaruga("Tartaruga", 2);
+		inicio = false;
 		pista = new int[300];
 		pista[0] += coelho.getNumero();
 		pista[0] += tartaruga.getNumero();
+		tempo = new Timer(100, this);
+		tempo.start();
 	}
 	
 	public void geraRodadaCorrida() {
 		
 		final SecureRandom aleatorio = new SecureRandom();
-		final int posicaoTartaruga;
-		final int posicaoCoelho;
+		int posicaoTartaruga;
+		int posicaoCoelho;
 		int movimentoCoelho, movimentoTartaruga;
+		
 		
 		if(contemNumero(3, pista)) {
 			
-			posicaoTartaruga = pista[buscaIndice(3, pista)];
+			posicaoTartaruga = buscaIndice(3, pista);
 			pista[buscaIndice(3, pista)] -= tartaruga.getNumero();
-			posicaoCoelho = pista[buscaIndice(coelho.getNumero(), pista)];
+			posicaoCoelho = buscaIndice(coelho.getNumero(), pista);
 			pista[buscaIndice(coelho.getNumero(), pista)] -= coelho.getNumero();
 			
 			
 		}else {
 			
-			posicaoTartaruga = pista[buscaIndice(tartaruga.getNumero(), pista)];
+			posicaoTartaruga = buscaIndice(tartaruga.getNumero(), pista);
 			pista[buscaIndice(tartaruga.getNumero(), pista)] -= tartaruga.getNumero();
-			posicaoCoelho = pista[buscaIndice(coelho.getNumero(), pista)];
+			posicaoCoelho = buscaIndice(coelho.getNumero(), pista);
 			pista[buscaIndice(coelho.getNumero(), pista)] -= coelho.getNumero();
 			
 		}
@@ -77,7 +86,12 @@ public class Corrida extends JPanel{
 		}
 		
 		System.out.println(posicaoTartaruga);
-		System.out.println(posicaoCoelho);
+		System.out.println(movimentoTartaruga);
+		
+		for(int i = 0 ; i < pista.length; i++) {
+			System.out.printf("%d,", pista[i]);
+		}
+		System.out.println();
 		
 	}
 	
@@ -88,24 +102,30 @@ public class Corrida extends JPanel{
 		g.fillArc(0, 20, getWidth(), getHeight() * 2, 0, 180);
 		
 		g.setColor(Color.GRAY);
-		g.setFont(new Font("Arial", Font.PLAIN, 20));
+		g.setFont(new Font("Arial", Font.PLAIN, 10));
 		
-		
-		
-		
-		if(contemNumero(3, pista)) {
+		if(contemNumero(coelho.getNumero(), pista)) {
 			
-			g.drawString("Coelho Tartaruga", getWidth()/2 - 20, getHeight() - getHeight() / pista.length * pista.toString().indexOf("3"));
+			g.drawString("Coelho", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(coelho.getNumero(), pista) );
 			
-		}else if(contemNumero(1, pista)) {
+		}
+		
+		if(contemNumero(tartaruga.getNumero(), pista)) {
 			
-			//g.drawString("Coelho", getWidth()/2, );
+			g.drawString("Tartaruga", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(tartaruga.getNumero(), pista) );
 			
 		}
 		
 		geraRodadaCorrida();
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+
+		repaint();
+		
+	}
+
 	public boolean contemNumero(int numero, int array[]) {
 		
 		for(int i = 0; i < array.length; i++) {
@@ -127,7 +147,7 @@ public class Corrida extends JPanel{
 			
 			if(array[i] == numero) {
 				
-				return numero;
+				return i;
 				
 			}
 			
