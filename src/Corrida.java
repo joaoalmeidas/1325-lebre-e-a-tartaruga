@@ -25,11 +25,11 @@ public class Corrida extends JPanel implements ActionListener{
 		pista = new int[300];
 		pista[0] += coelho.getNumero();
 		pista[0] += tartaruga.getNumero();
-		tempo = new Timer(100, this);
+		tempo = new Timer(10, this);
 		tempo.start();
 	}
 	
-	public void geraRodadaCorrida() {
+	public void atualizaCorrida() {
 		
 		final SecureRandom aleatorio = new SecureRandom();
 		int posicaoTartaruga;
@@ -104,19 +104,66 @@ public class Corrida extends JPanel implements ActionListener{
 		g.setColor(Color.GRAY);
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
 		
-		if(contemNumero(coelho.getNumero(), pista)) {
+		if(inicio == false) {
 			
-			g.drawString("Coelho", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(coelho.getNumero(), pista) );
+			g.drawString("Inicia a corrida!", getWidth()/2 - 10, getHeight() - 10);
+			
+			inicio = true;
+			
+		}else {
+			
+			if(pista[pista.length - 1] == 0) {
+				
+				if(contemNumero(coelho.getNumero(), pista)) {
+					
+					g.drawString("Coelho", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(coelho.getNumero(), pista) );
+					
+				}
+				
+				if(contemNumero(tartaruga.getNumero(), pista)) {
+					
+					g.drawString("Tartaruga", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(tartaruga.getNumero(), pista) );
+					
+				}
+			
+				if(contemNumero(3, pista)) {
+					
+					g.drawString("Coelho", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(3, pista) );
+					g.drawString("Tartaruga", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(3, pista) );
+					
+				}
+				
+			}else {
+				
+				if(pista[pista.length - 1] == coelho.getNumero()) {
+					
+					g.drawString("O COELHO VENCEU!!! =D", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(coelho.getNumero(), pista) );
+					g.drawString("Tartaruga :c", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(tartaruga.getNumero(), pista) );
+					
+				}else if(pista[pista.length - 1] == tartaruga.getNumero()) {
+					
+					g.drawString("Coelho :c", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(coelho.getNumero(), pista) );
+					g.drawString("A TARTARUGA VENCEU!!! =D", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(tartaruga.getNumero(), pista) );
+					
+				}else {
+					
+					g.drawString("HOUVE UM EMPATE!!!", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(3, pista) );
+					
+				}
+				
+			}
 			
 		}
 		
-		if(contemNumero(tartaruga.getNumero(), pista)) {
+		if(!(pista[pista.length - 1] == coelho.getNumero() || pista[pista.length - 1] == tartaruga.getNumero() || pista[pista.length - 1] == 3 )) {
 			
-			g.drawString("Tartaruga", getWidth()/2 - 10, getHeight() - getHeight() / 300 * buscaIndice(tartaruga.getNumero(), pista) );
+			atualizaCorrida();
 			
 		}
 		
-		geraRodadaCorrida();
+		
+		
+		
 	}
 	
 	@Override
