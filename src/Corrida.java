@@ -99,7 +99,7 @@ public class Corrida extends JPanel implements ActionListener{
 	public void paintComponent(Graphics g) {
 		
 		g.setColor(Color.GREEN);
-		g.fillArc(0, 20, getWidth(), getHeight() * 2, 0, 180);
+		g.fillArc(0, getHeight() - getHeight()/pista.length * pista.length, getWidth(), getHeight() * 2, 0, 180);
 		
 		g.setColor(Color.GRAY);
 		g.setFont(new Font("Arial", Font.PLAIN, 10));
