@@ -28,25 +28,20 @@ public class Corrida extends JPanel{
 		final int posicaoCoelho;
 		int movimentoCoelho, movimentoTartaruga;
 		
-		System.out.println(pista.toString());
-		
 		if(contemNumero(3, pista)) {
 			
-			System.out.println(pista.toString().indexOf("3"));
-			
-			posicaoTartaruga = pista[pista.toString().indexOf("3")];
-			pista[pista.toString().indexOf("3")] -= tartaruga.getNumero();
-			System.out.println(pista[0]);
-			posicaoCoelho = pista[pista.toString().indexOf("1")];
-			pista[pista.toString().indexOf("1")] -= coelho.getNumero();
+			posicaoTartaruga = pista[buscaIndice(3, pista)];
+			pista[buscaIndice(3, pista)] -= tartaruga.getNumero();
+			posicaoCoelho = pista[buscaIndice(coelho.getNumero(), pista)];
+			pista[buscaIndice(coelho.getNumero(), pista)] -= coelho.getNumero();
 			
 			
 		}else {
 			
-			posicaoTartaruga = pista[pista.toString().indexOf("2")];
-			pista[pista.toString().indexOf("2")] -= tartaruga.getNumero();
-			posicaoCoelho = pista[pista.toString().indexOf("1")];
-			pista[pista.toString().indexOf("1")] -= coelho.getNumero();
+			posicaoTartaruga = pista[buscaIndice(tartaruga.getNumero(), pista)];
+			pista[buscaIndice(tartaruga.getNumero(), pista)] -= tartaruga.getNumero();
+			posicaoCoelho = pista[buscaIndice(coelho.getNumero(), pista)];
+			pista[buscaIndice(coelho.getNumero(), pista)] -= coelho.getNumero();
 			
 		}
 		
@@ -81,6 +76,9 @@ public class Corrida extends JPanel{
 			
 		}
 		
+		System.out.println(posicaoTartaruga);
+		System.out.println(posicaoCoelho);
+		
 	}
 	
 	@Override
@@ -95,9 +93,13 @@ public class Corrida extends JPanel{
 		
 		
 		
-		if(pista.toString().contains("3") == true) {
+		if(contemNumero(3, pista)) {
 			
-			g.drawString("Coelho Tartaruga", getWidth()/4, getHeight() - getHeight() / pista.length * pista.toString().indexOf("3"));
+			g.drawString("Coelho Tartaruga", getWidth()/2 - 20, getHeight() - getHeight() / pista.length * pista.toString().indexOf("3"));
+			
+		}else if(contemNumero(1, pista)) {
+			
+			//g.drawString("Coelho", getWidth()/2, );
 			
 		}
 		
@@ -131,6 +133,6 @@ public class Corrida extends JPanel{
 			
 		}
 		
-		return false;
+		return 0;
 	}
 }
