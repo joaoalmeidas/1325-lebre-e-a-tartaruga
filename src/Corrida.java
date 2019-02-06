@@ -18,7 +18,7 @@ public class Corrida extends JPanel implements ActionListener{
 	private Timer tempo;	
 	
 	public Corrida() {
-		
+
 		coelho = new Coelho("Coelho", 1);
 		tartaruga = new Tartaruga("Tartaruga", 2);
 		inicio = false;
@@ -26,7 +26,7 @@ public class Corrida extends JPanel implements ActionListener{
 		pista[0] += coelho.getNumero();
 		pista[0] += tartaruga.getNumero();
 		tempo = new Timer(10, this);
-		tempo.start();
+		
 	}
 	
 	public void atualizaCorrida() {
@@ -85,18 +85,12 @@ public class Corrida extends JPanel implements ActionListener{
 			
 		}
 		
-		System.out.println(posicaoTartaruga);
-		System.out.println(movimentoTartaruga);
-		
-		for(int i = 0 ; i < pista.length; i++) {
-			System.out.printf("%d,", pista[i]);
-		}
-		System.out.println();
 		
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		
 		g.setColor(Color.GREEN);
 		g.fillArc(0, getHeight() - getHeight()/pista.length * pista.length, getWidth(), getHeight() * 2, 0, 180);
@@ -163,12 +157,12 @@ public class Corrida extends JPanel implements ActionListener{
 		
 		
 		
-		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		
+		validate();
 		repaint();
 		
 	}
@@ -201,5 +195,11 @@ public class Corrida extends JPanel implements ActionListener{
 		}
 		
 		return 0;
+	}
+	
+	public void iniciaCorrida() {
+		
+		tempo.start();
+		
 	}
 }
