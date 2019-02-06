@@ -25,6 +25,7 @@ public class App {
 		frame.add(corrida);
 		frame.setSize(500, 500);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
